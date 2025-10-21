@@ -1,8 +1,28 @@
-version: '3.8'
-
 services:
+  # Development Service
   app:
-    build: .
+    build:
+      context: .
+      target: development
     ports:
       - "8080:8080"
-    container_name: hello-world-app
+    volumes:
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      - maven-cache:/root/.m2
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+
+  # Production Service
+  # app:
+  #   build:
+  #     context: .
+  #     target: production
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     - SPRING_PROFILES_ACTIVE=prod
+
+# Docker Volumes for development
+volumes:
+  maven-cache:
